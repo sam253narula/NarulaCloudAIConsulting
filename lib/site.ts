@@ -20,6 +20,10 @@ import {
   Zap
 } from 'lucide-react';
 
+const repoName = 'NarulaCloudAIConsulting';
+const basePath = process.env.NODE_ENV === 'production' ? `/${repoName}` : '';
+const publicAsset = (path: string) => `${basePath}${path}`;
+
 export const site = {
   name: 'Narula Cloud & AI Consulting',
   founder: 'Samarth Narula',
@@ -29,9 +33,9 @@ export const site = {
   email: 'samarthnarula253@gmail.com',
   whatsappNumber: '+91 9930864102/ +1 7272255610',
   linkedin: 'https://www.linkedin.com/in/samarth-narula/',
-  logo: '/narula-logo-transparent.png',
-  logoWhite: '/narula-logo-white.png',
-  founderPhoto: '/samarth-narula-founder.jpg',
+  logo: publicAsset('/narula-logo-transparent.png'),
+  logoWhite: publicAsset('/narula-logo-white.png'),
+  founderPhoto: publicAsset('/samarth-narula-founder.jpg'),
   role: 'Founder',
   consultingRole: 'Founder & Independent Consultant'
 };
