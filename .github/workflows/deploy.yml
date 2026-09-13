@@ -48,8 +48,12 @@ jobs:
           NEXT_TELEMETRY_DISABLED: "1"
         run: npm run build
 
+      - name: Create out directory
+        run: mkdir -p out
+
       - name: Add .nojekyll
         run: touch out/.nojekyll
+        
 
       - name: Upload static files
         uses: actions/upload-pages-artifact@v4
