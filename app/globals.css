@@ -157,3 +157,161 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Aurum Signal — isolated dashboard styles */
+.gold-app { --gold-bg:#0b0d0e; --gold-panel:#111416; --gold-line:#25292b; --gold:#e0b54f; --gold-soft:#f1d58d; --gold-text:#f1efe8; --gold-muted:#8e9495; min-height:100vh; background:radial-gradient(circle at 80% -10%,rgba(216,166,52,.10),transparent 28rem),var(--gold-bg); color:var(--gold-text); font-family:Inter,system-ui,sans-serif; }
+.gold-app button,.gold-app input,.gold-app select { font:inherit; }
+.gold-header { height:68px; border-bottom:1px solid var(--gold-line); display:flex; align-items:center; padding:0 4vw; position:sticky; top:0; z-index:30; background:rgba(11,13,14,.9); backdrop-filter:blur(18px); }
+.gold-brand { display:flex; align-items:center; gap:10px; color:var(--gold-text); text-decoration:none; font-size:14px; letter-spacing:.13em; font-weight:800; }
+.gold-brand>span:last-child span { color:var(--gold); }
+.gold-brand-mark { width:34px; height:34px; display:grid; place-items:center; color:#101112; background:linear-gradient(135deg,#f2d581,#b87e20); transform:rotate(45deg); }
+.gold-brand-mark svg { transform:rotate(-45deg); }
+.gold-nav { display:flex; margin:auto; height:100%; align-items:center; gap:34px; }
+.gold-nav a { height:100%; display:flex; align-items:center; position:relative; color:#898f90; font-size:12px; letter-spacing:.05em; font-weight:600; text-decoration:none; }
+.gold-nav a:hover,.gold-nav a.active { color:#f4f1e9; }
+.gold-nav a.active:after { content:''; height:2px; background:var(--gold); position:absolute; left:0; right:0; bottom:0; }
+.gold-header-actions { display:flex; align-items:center; gap:12px; }
+.gold-icon-button,.gold-menu { background:transparent; border:0; color:#a5aaab; cursor:pointer; padding:7px; }
+.gold-menu { display:none; }
+.gold-live { color:#aeb3b2; background:#141718; border:1px solid #292d2e; border-radius:99px; padding:7px 11px; font-size:10px!important; text-transform:uppercase; letter-spacing:.11em; }
+.gold-live span,.status-dot { display:inline-block; width:6px; height:6px; margin-right:6px; border-radius:50%; background:#6fba82; box-shadow:0 0 9px #6fba82; }
+.gold-shell { max-width:1420px; margin:auto; padding:58px 4vw 28px; }
+.gold-intro { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; }
+.gold-eyebrow,.gold-card-label { color:#9aa09f; font-size:9px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; }
+.gold-eyebrow { display:flex; gap:8px; align-items:center; color:#c59c43; margin-bottom:17px; }
+.gold-intro h1 { font-family:'Inter Tight',Inter,sans-serif; font-size:clamp(43px,5vw,72px); letter-spacing:-.055em; line-height:.92; margin:0; font-weight:700; }
+.gold-intro h1 em { color:var(--gold); font-style:normal; font-weight:600; }
+.gold-intro p { color:#8b9192; max-width:510px; font-size:13px; margin:20px 0 0; }
+.gold-updated { text-align:right; display:flex; flex-direction:column; gap:5px; }
+.gold-updated span { font-size:9px; letter-spacing:.16em; color:#717778; }
+.gold-updated strong { font-family:monospace; font-size:11px; color:#d2d0ca; }
+.gold-updated small { font-size:9px; color:#9d7a33; }
+.gold-kpis { display:grid; grid-template-columns:1.35fr repeat(3,1fr); border:1px solid var(--gold-line); margin-bottom:18px; }
+.gold-kpi { min-height:190px; padding:23px; background:rgba(17,20,22,.8); border-right:1px solid var(--gold-line); position:relative; overflow:hidden; }
+.gold-kpi:last-child { border:0; }
+.gold-kpi.featured { background:linear-gradient(145deg,#151819,#101314); }
+.gold-kpi-value { font-family:'Inter Tight',Inter,sans-serif; font-size:34px; letter-spacing:-.04em; margin:20px 0 6px; font-weight:700; }
+.gold-kpi-value small { font-size:14px; color:#888e8e; letter-spacing:0; }
+.gold-change { display:flex; align-items:center; gap:3px; font-size:11px; font-weight:700; position:relative; z-index:2; }
+.gold-change.up,.positive { color:#77b888!important; }
+.gold-change.down { color:#d47665; }
+.gold-change span { color:#777d7e; font-weight:400; margin-left:3px; }
+.gold-price-source { position:absolute; right:15px; bottom:8px; z-index:3; color:#787d7c; font-size:7px; letter-spacing:.08em; }
+.gold-sparkline { position:absolute; bottom:0; left:0; width:100%; height:70px; opacity:.9; }
+.gold-kpi-foot { position:absolute; left:23px; right:23px; bottom:20px; display:flex; justify-content:space-between; color:#7f8585; font-size:9px; text-transform:uppercase; letter-spacing:.08em; }
+.gold-kpi-foot.single { justify-content:flex-start; gap:7px; align-items:center; }
+.gold-mood-number { font-family:'Inter Tight',Inter,sans-serif; font-size:49px; line-height:1; font-weight:700; color:var(--gold-soft); margin-top:17px; }
+.gold-mood-label { position:absolute; top:49px; left:85px; display:flex; align-items:center; gap:5px; color:#d7af53; font-size:10px; font-weight:700; }
+.gold-meter { height:4px; background:#283032; margin-top:14px; }
+.gold-meter span { display:block; height:100%; background:linear-gradient(90deg,#b56152,#c6a447,#e7c565); position:relative; }
+.gold-meter span:after { content:''; position:absolute; right:-3px; top:-3px; width:10px; height:10px; border:2px solid #111; border-radius:50%; background:#f1d27c; }
+.gold-meter-ends { display:flex; justify-content:space-between; margin-top:8px; color:#666d6e; font-size:8px; text-transform:uppercase; }
+.gold-grid { display:grid; grid-template-columns:minmax(0,2.7fr) minmax(280px,1fr); gap:18px; margin-bottom:18px; }
+.gold-panel { background:rgba(17,20,22,.84); border:1px solid var(--gold-line); padding:25px; }
+.gold-panel-head { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; }
+.gold-panel h2 { font-family:'Inter Tight',Inter,sans-serif; font-size:22px; letter-spacing:-.025em; margin:8px 0 0; }
+.gold-export { display:flex; align-items:center; gap:7px; padding:9px 12px; color:#c4c5c1; background:#181b1c; border:1px solid #303536; font-size:10px!important; text-transform:uppercase; letter-spacing:.08em; cursor:pointer; }
+.gold-export:hover { border-color:#8d743c; color:#efd88f; }
+.gold-toolbar { display:flex; gap:10px; margin:24px 0 7px; }
+.gold-search { display:flex; align-items:center; gap:8px; border:1px solid #292e2f; background:#0e1011; color:#717778; padding:0 11px; flex:1; max-width:340px; }
+.gold-search input { border:0; outline:0; background:transparent; color:#dddcd6; font-size:11px; width:100%; padding:10px 0; }
+.gold-select { display:flex; align-items:center; gap:6px; border:1px solid #292e2f; background:#0e1011; padding:0 9px 0 11px; color:#6f7576; font-size:9px; text-transform:uppercase; letter-spacing:.1em; }
+.gold-select select { border:0; appearance:none; outline:0; background:transparent; color:#d5d4ce; padding:9px 15px 9px 3px; font-size:10px; }
+.gold-table-wrap { overflow-x:auto; }
+.gold-table { border-collapse:collapse; width:100%; min-width:680px; font-size:11px; }
+.gold-table th { color:#676d6e; text-align:left; text-transform:uppercase; letter-spacing:.13em; font-size:8px; padding:10px 12px; border-bottom:1px solid #282c2d; }
+.gold-table td { padding:12px; border-bottom:1px solid #202425; color:#aeb2b1; }
+.gold-table tbody tr:hover { background:#15191a; }
+.gold-bank { display:flex; align-items:center; gap:11px; }
+.gold-bank span { display:flex; flex-direction:column; gap:3px; }
+.gold-bank strong,.gold-table td>strong { color:#e5e3dd; font-size:11px; }
+.gold-bank small { color:#686f70; font-size:9px; }
+.gold-flag { width:29px; height:29px; display:grid; place-items:center; flex:0 0 auto; border:1px solid #353a3b; background:#191c1d; color:#cfb264; font-size:8px; font-weight:800; }
+.flow-pill { display:inline-flex; align-items:center; gap:4px; min-width:72px; font-weight:700; }
+.flow-pill.buy { color:#7bbb8a; }
+.flow-pill.sell,.negative { color:#d47665!important; }
+.gold-empty { padding:28px; text-align:center; color:#737a7a; font-size:12px; }
+.gold-region-panel { min-height:540px; }
+.gold-donut-wrap { display:grid; place-items:center; margin:39px 0; }
+.gold-donut { width:190px; height:190px; border-radius:50%; display:grid; place-items:center; background:conic-gradient(#e8b44b 0 40%,#fae7b1 40% 78%,#a87821 78% 94%,#d86d59 94% 100%); position:relative; transform:rotate(13deg); }
+.gold-donut:before { content:''; position:absolute; inset:24px; border-radius:50%; background:#111416; }
+.gold-donut div { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; transform:rotate(-13deg); }
+.gold-donut strong { font-size:25px; letter-spacing:-.03em; }
+.gold-donut span { color:#737979; font-size:8px; letter-spacing:.14em; margin-top:4px; }
+.gold-region-list>div { display:flex; justify-content:space-between; align-items:center; border-top:1px solid #242829; padding:13px 2px; font-size:10px; }
+.gold-region-list span { color:#949a99; display:flex; align-items:center; gap:8px; }
+.gold-region-list i { width:7px; height:7px; border-radius:50%; }
+.gold-region-list strong { color:#dddcd6; }
+.gold-mood-panel { scroll-margin-top:90px; }
+.gold-signal-grid { display:grid; grid-template-columns:250px minmax(350px,1fr) 300px; gap:38px; align-items:center; padding-top:30px; }
+.gold-score-ring { display:grid; place-items:center; width:210px; height:210px; border-radius:50%; background:conic-gradient(var(--gold) 0 76%,#25292a 76%); position:relative; }
+.gold-score-ring:before { content:''; position:absolute; inset:8px; background:#111416; border-radius:50%; }
+.gold-score-ring:after { content:''; position:absolute; inset:19px; border:1px solid #313638; border-radius:50%; }
+.gold-score-ring div { z-index:2; display:flex; flex-direction:column; text-align:center; }
+.gold-score-ring span { color:#717777; font-size:8px; letter-spacing:.2em; }
+.gold-score-ring strong { font-size:63px; line-height:1.05; font-weight:600; letter-spacing:-.07em; }
+.gold-score-ring em { color:var(--gold); font-style:normal; font-size:10px; letter-spacing:.18em; font-weight:700; }
+.gold-signals { display:flex; flex-direction:column; gap:18px; }
+.gold-signal { display:grid; grid-template-columns:145px 1fr 26px 52px; align-items:center; gap:12px; }
+.gold-signal>div:first-child { display:flex; flex-direction:column; }
+.gold-signal strong { font-size:10px; color:#dddcd6; }
+.gold-signal>div span { font-size:8px; color:#666d6e; margin-top:3px; }
+.gold-signal-bar { height:4px; background:#2b3031; }
+.gold-signal-bar span { height:100%; display:block; background:linear-gradient(90deg,#8b6929,var(--gold)); margin:0!important; }
+.gold-signal b { font-size:11px; color:#e9d18e; }
+.gold-signal em { font-size:8px; color:#858c8c; font-style:normal; text-transform:uppercase; }
+.gold-readout { border-left:1px solid #292e2f; padding-left:27px; }
+.gold-readout blockquote { color:#c7c7c1; font-family:Georgia,serif; font-size:17px; line-height:1.5; margin:17px 0 20px; }
+.gold-readout-stat { display:flex; justify-content:space-between; border-top:1px solid #292d2e; padding:10px 0; font-size:9px; color:#757b7c; }
+.gold-readout-stat strong { color:#d6d4ce; text-transform:uppercase; }
+.gold-footer { display:flex; justify-content:space-between; gap:40px; color:#5e6465; font-size:8px; letter-spacing:.07em; padding:20px 2px 0; }
+.gold-footer p { max-width:760px; text-align:right; margin:0; line-height:1.6; }
+.gold-modal-backdrop { position:fixed; inset:0; z-index:50; display:grid; place-items:center; padding:20px; background:rgba(0,0,0,.74); backdrop-filter:blur(8px); }
+.gold-modal { width:min(540px,100%); position:relative; padding:33px; background:#131617; border:1px solid #3a3f40; box-shadow:0 30px 90px #000; }
+.gold-modal>button { position:absolute; right:20px; top:20px; color:#959a99; border:0; background:none; cursor:pointer; }
+.gold-modal h2 { font-family:'Inter Tight'; font-size:28px; margin:12px 0; }
+.gold-modal p,.gold-modal small { color:#969b9a; line-height:1.65; font-size:12px; }
+.gold-formula { margin:22px 0; padding:18px; border:1px solid #34393a; background:#0d0f10; color:#e4c36d; font-family:monospace; font-size:11px; line-height:1.6; }
+.gold-bands { display:grid; grid-template-columns:repeat(3,1fr); margin-bottom:18px; }
+.gold-bands span { border-right:1px solid #303536; text-align:center; color:#777d7d; font-size:9px; line-height:1.7; }
+.gold-bands span:last-child { border:0; }
+.gold-bands b { color:#d7d5ce; }
+
+@media (max-width:1050px) {
+  .gold-kpis { grid-template-columns:repeat(2,1fr); }
+  .gold-kpi:nth-child(2) { border-right:0; }
+  .gold-kpi:nth-child(-n+2) { border-bottom:1px solid var(--gold-line); }
+  .gold-grid { grid-template-columns:1fr; }
+  .gold-region-panel { min-height:0; }
+  .gold-region-panel .gold-donut-wrap { margin:25px 0; }
+  .gold-signal-grid { grid-template-columns:210px 1fr; }
+  .gold-readout { grid-column:1/-1; border-left:0; border-top:1px solid #292e2f; padding:25px 0 0; }
+}
+@media (max-width:720px) {
+  .gold-header { padding:0 20px; }
+  .gold-nav { display:none; position:absolute; top:68px; left:0; right:0; height:auto; background:#0e1011; padding:18px 25px; flex-direction:column; align-items:flex-start; gap:18px; border-bottom:1px solid #2a2f30; }
+  .gold-nav.is-open { display:flex; }
+  .gold-nav a { height:auto; }
+  .gold-nav a.active:after { display:none; }
+  .gold-menu { display:block; }
+  .gold-icon-button { display:none; }
+  .gold-shell { padding:38px 18px 20px; }
+  .gold-intro { align-items:flex-start; flex-direction:column; gap:25px; }
+  .gold-updated { text-align:left; }
+  .gold-kpis { grid-template-columns:1fr; }
+  .gold-kpi { border-right:0; border-bottom:1px solid var(--gold-line)!important; }
+  .gold-kpi:last-child { border-bottom:0!important; }
+  .gold-panel { padding:20px 15px; }
+  .gold-panel-head { align-items:flex-start; }
+  .gold-export { padding:8px; font-size:0!important; }
+  .gold-toolbar { flex-direction:column; }
+  .gold-search { max-width:none; }
+  .gold-select { justify-content:space-between; }
+  .gold-signal-grid { grid-template-columns:1fr; justify-items:center; }
+  .gold-signals { width:100%; }
+  .gold-signal { grid-template-columns:120px 1fr 25px; }
+  .gold-signal em { display:none; }
+  .gold-readout { grid-column:auto; width:100%; }
+  .gold-footer { flex-direction:column; gap:10px; }
+  .gold-footer p { text-align:left; }
+}

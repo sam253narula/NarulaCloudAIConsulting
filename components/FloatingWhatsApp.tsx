@@ -7,10 +7,11 @@ export function FloatingWhatsApp() {
       href={primaryWhatsAppUrl}
       target="_blank"
       rel="noreferrer"
-      aria-label="WhatsApp Narula Cloud & AI Consulting"
-      className="cursor-target fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-acid text-ink shadow-acid transition hover:scale-110 md:h-16 md:w-16"
+      aria-label="Chat with Samarth Narula on WhatsApp (opens in a new tab)"
+      className="floating-contact cursor-target"
     >
-      <MessageCircle className="h-6 w-6" />
+      <MessageCircle size={21} strokeWidth={1.7} aria-hidden="true" />
+      <span>Let’s talk</span>
     </a>
   );
 }

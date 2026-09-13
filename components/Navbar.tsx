@@ -1,49 +1,49 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { MessageCircle } from 'lucide-react';
-import { navItems, primaryWhatsAppUrl, site } from '@/lib/site';
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
+import { ArrowUpRight, Menu, Pause, Play, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useMotionPreferences } from '@/components/MotionProvider';
+import { site } from '@/lib/site';
+
+const links = [{ label: 'Expertise', href: '#services' }, { label: 'Selected work', href: '#work' }, { label: 'About', href: '#about' }, { label: 'Approach', href: '#method' }];
 
 export function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const menuRef = useRef<HTMLButtonElement>(null);
+  const { scrollY, scrollYProgress } = useScroll();
+  const { paused, setPaused, reducedMotion, motionEnabled } = useMotionPreferences();
+  useMotionValueEvent(scrollY, 'change', (value) => setScrolled(value > 24));
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setOpen(false); menuRef.current?.focus(); }
+    };
+    const query = window.matchMedia('(min-width: 1000px)');
+    const closeDesktop = () => { if (query.matches) setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    query.addEventListener('change', closeDesktop);
+    return () => { document.removeEventListener('keydown', onKey); query.removeEventListener('change', closeDesktop); };
+  }, [open]);
+
   return (
-    <motion.header
-      initial={{ y: -22, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
-      className="fixed left-0 right-0 top-0 z-50 px-3 py-3 md:px-8"
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-paper/10 bg-ink/76 px-3 py-2 shadow-soft backdrop-blur-xl md:px-4">
-        <a href="#top" className="cursor-target flex items-center gap-3 rounded-full text-paper" aria-label="Narula Cloud & AI Consulting home">
-          <span className="grid h-12 w-[11.5rem] place-items-center rounded-full border border-paper/10 bg-paper px-4 shadow-soft md:w-[14rem]">
-            <img src={site.logo} alt={site.name} className="h-8 w-full object-contain" />
-          </span>
-          <span className="hidden text-[0.62rem] font-black uppercase leading-4 tracking-[0.18em] text-paper/45 xl:block">
-            {site.consultingRole}
-          </span>
-        </a>
-
-        <nav className="hidden items-center gap-1 lg:flex">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="cursor-target rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-paper/55 transition hover:bg-paper/10 hover:text-paper"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        <a
-          href={primaryWhatsAppUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="cursor-target inline-flex items-center gap-2 rounded-full bg-acid px-4 py-3 text-xs font-black uppercase tracking-[0.16em] text-ink transition hover:bg-paper"
-        >
-          <MessageCircle className="h-4 w-4" />
-          <span className="hidden sm:inline">Let&apos;s talk</span>
-        </a>
+    <header className={`profile-nav${scrolled ? ' is-scrolled' : ''}`}>
+      <div className="profile-nav-inner">
+        <a href="#top" className="profile-brand" aria-label={`${site.name} home`} onClick={() => setOpen(false)}><img src={site.logo} alt={site.name} width="230" height="67" /></a>
+        <nav className="desktop-nav" aria-label="Main navigation">{links.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}</nav>
+        <div className="profile-nav-actions">
+          <button type="button" className="motion-toggle" onClick={() => setPaused(!paused)} disabled={reducedMotion} aria-label={reducedMotion ? 'Motion disabled by your device preference' : paused ? 'Resume animations' : 'Pause animations'} aria-pressed={paused || reducedMotion} title={reducedMotion ? 'Reduced motion enabled on your device' : paused ? 'Resume animations' : 'Pause animations'}>{paused || reducedMotion ? <Play size={13} /> : <Pause size={13} />}<span>Motion</span></button>
+          <a href="#contact" className="nav-contact" onClick={() => setOpen(false)}>Let’s talk <ArrowUpRight size={15} /></a>
+          <button ref={menuRef} type="button" className="nav-menu-toggle" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)}>{open ? <X size={23} /> : <Menu size={23} />}</button>
+        </div>
       </div>
-    </motion.header>
+      <AnimatePresence>{open && <motion.nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: motionEnabled ? 0.25 : 0 }}>
+        {[...links, { label: 'Contact', href: '#contact' }].map((link, i) => <a key={link.href} href={link.href} onClick={() => setOpen(false)}><span>0{i + 1}</span>{link.label}<ArrowUpRight size={20} /></a>)}
+        <p>Independent expertise. Global reach.</p>
+      </motion.nav>}</AnimatePresence>
+      <motion.div className="reading-progress" style={{ scaleX: scrollYProgress }} />
+    </header>
   );
 }

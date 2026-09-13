@@ -1,127 +1,112 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Mail, MessageCircle, Phone } from 'lucide-react';
+import { type FormEvent, useState } from 'react';
+import { ArrowDownLeft, ArrowUpRight, Copy, MessageCircle } from 'lucide-react';
 import { contactOptions, primaryWhatsAppUrl, site } from '@/lib/site';
-import { SectionLabel } from './SectionLabel';
+import './contact-sections.css';
 
 export function Contact() {
+  const [status, setStatus] = useState('');
+  const [draftUrl, setDraftUrl] = useState('');
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get('name') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+    const service = String(data.get('service') ?? '').trim();
+    const project = String(data.get('project') ?? '').trim();
+
+    if (!name || !project) {
+      setStatus('Please add your name and a few details about your project.');
+      const missingField = form.elements.namedItem(!name ? 'name' : 'project');
+      if (missingField instanceof HTMLElement) missingField.focus();
+      return;
+    }
+
+    const subject = `${service} — project inquiry from ${name}`;
+    const body = `Hi Samarth,\n\n${project}\n\nInterested in: ${service}\n\n${name}\n${email}`;
+    const url = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setDraftUrl(url);
+    setStatus('Your draft is ready for your email app. Review and send it there. If nothing opens, use the direct email link.');
+    window.location.href = url;
+  }
+
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(site.email);
+      setStatus('Email address copied. You can paste it into your email app.');
+    } catch {
+      setStatus(`You can email Samarth directly at ${site.email}.`);
+    }
+  }
+
   return (
-    <section id="contact" className="relative z-10 px-4 py-24 md:px-8 md:py-32">
-      <div className="mx-auto max-w-7xl">
-        <SectionLabel eyebrow="contact" title="Have a cloud or AI build?">
-          Send a project note and start with the outcome you want: faster delivery, safer cloud, better platform, stronger data pipeline or AI automation.
-        </SectionLabel>
-
-        <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-          <motion.div
-            initial={{ opacity: 0, y: 35 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65 }}
-            className="rounded-[2rem] border border-paper/10 bg-paper/[0.04] p-7 md:p-9"
-          >
-            <p className="mb-4 font-mono text-xs font-black uppercase tracking-[0.28em] text-acid">/direct line</p>
-            <h3 className="font-display text-5xl font-black leading-tight tracking-[-0.02em] text-paper">Talk to Samarth</h3>
-            <p className="mt-6 text-base leading-8 text-paper/62">
-              {site.consultingRole} at {site.name}. Available for DevOps, Cloud, Platform Engineering, Data Engineering, Low-Code SaaS and AI Product consulting.
-            </p>
-
-            <div className="mt-8 space-y-3">
+    <section id="contact" className="contact-section" aria-labelledby="contact-title">
+      <div className="contact-shell">
+        <div className="contact-heading">
+          <p className="closing-eyebrow"><span className="closing-dot" /> A conversation is a good start</p>
+          <h2 id="contact-title">Let’s build<br />what’s <span>next.</span></h2>
+          <ArrowDownLeft className="contact-heading-arrow" aria-hidden="true" />
+        </div>
+        <div className="contact-grid">
+          <div className="contact-direct">
+            <div className="contact-person">
+              <img src={site.founderPhoto} alt="" width={64} height={64} loading="lazy" />
+              <div><h3>{site.founder}</h3><p>{site.consultingRole}</p></div>
+            </div>
+            <p className="contact-intro">A new idea. A stubborn bottleneck. A platform ready for its next chapter. Tell me where you want to go.</p>
+            <div className="contact-lines">
               {contactOptions.map((option) => (
-                <a
-                  key={option.label}
-                  href={option.href}
-                  className="cursor-target flex items-center justify-between rounded-2xl border border-paper/10 bg-ink/60 p-4 transition hover:border-acid/50 hover:bg-paper hover:text-ink"
-                >
-                  <span className="text-xs font-black uppercase tracking-[0.22em] text-acid">{option.label}</span>
-                  <span className="text-sm font-semibold">{option.value}</span>
+                <a key={option.label} href={option.href} className="contact-line cursor-target">
+                  <span className="contact-line-label">{option.label}</span>
+                  <span className="contact-line-value">{option.value}</span>
+                  <ArrowUpRight size={16} aria-hidden="true" />
                 </a>
               ))}
             </div>
-
-            <a
-              href={primaryWhatsAppUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="cursor-target mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full bg-acid px-6 py-5 text-xs font-black uppercase tracking-[0.22em] text-ink transition hover:bg-paper"
-            >
-              <MessageCircle className="h-5 w-5" /> WhatsApp me
-            </a>
-          </motion.div>
-
-          <motion.form
-            initial={{ opacity: 0, y: 35 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, delay: 0.08 }}
-            action={`mailto:${site.email}`}
-            method="post"
-            encType="text/plain"
-            className="rounded-[2rem] border border-paper/10 bg-paper/[0.04] p-5 md:p-8"
-          >
-            <div className="grid gap-4 md:grid-cols-2">
-              <label className="block">
-                <span className="mb-2 block text-xs font-black uppercase tracking-[0.22em] text-paper/50">Name</span>
-                <input
-                  name="name"
-                  className="w-full rounded-2xl border border-paper/10 bg-ink px-4 py-4 text-paper outline-none transition placeholder:text-paper/25 focus:border-acid"
-                  placeholder="Your name"
-                />
+            <div className="contact-alternatives">
+              <a href={primaryWhatsAppUrl} target="_blank" rel="noreferrer" className="contact-whatsapp cursor-target">
+                <MessageCircle size={17} aria-hidden="true" /> Chat on WhatsApp <ArrowUpRight size={14} aria-hidden="true" />
+              </a>
+              <button type="button" onClick={copyEmail} className="contact-copy cursor-target"><Copy size={14} aria-hidden="true" /> Copy email</button>
+            </div>
+            <p className="contact-personal-note">Work directly with the person who designs<br className="contact-desktop-break" /> the architecture and writes the code.</p>
+          </div>
+          <form onSubmit={handleSubmit} className="contact-form" aria-labelledby="brief-title" aria-describedby="email-draft-note">
+            <div className="contact-form-heading"><h3 id="brief-title">A little about your project</h3><span className="closing-eyebrow">01 → 02</span></div>
+            <div className="contact-fields-pair">
+              <label className="contact-field" htmlFor="contact-name">
+                <span>Your name <span aria-hidden="true">*</span></span>
+                <input id="contact-name" name="name" autoComplete="name" placeholder="Alex Taylor" maxLength={120} required />
               </label>
-              <label className="block">
-                <span className="mb-2 block text-xs font-black uppercase tracking-[0.22em] text-paper/50">Email</span>
-                <input
-                  name="email"
-                  type="email"
-                  className="w-full rounded-2xl border border-paper/10 bg-ink px-4 py-4 text-paper outline-none transition placeholder:text-paper/25 focus:border-acid"
-                  placeholder="you@company.com"
-                />
+              <label className="contact-field" htmlFor="contact-email">
+                <span>Email address <span aria-hidden="true">*</span></span>
+                <input id="contact-email" name="email" type="email" autoComplete="email" placeholder="alex@company.com" maxLength={254} required />
               </label>
             </div>
-
-            <label className="mt-4 block">
-              <span className="mb-2 block text-xs font-black uppercase tracking-[0.22em] text-paper/50">Need help with</span>
-              <select
-                name="service"
-                className="w-full rounded-2xl border border-paper/10 bg-ink px-4 py-4 text-paper outline-none transition focus:border-acid"
-                defaultValue="Cloud / DevOps consulting"
-              >
+            <label className="contact-field contact-select" htmlFor="contact-service">
+              <span>What are we building? <span aria-hidden="true">*</span></span>
+              <select id="contact-service" name="service" defaultValue="" required>
+                <option value="" disabled>Select a focus area</option>
                 <option>Cloud / DevOps consulting</option>
                 <option>Platform engineering</option>
                 <option>AI product architecture</option>
                 <option>Data engineering / low-code SaaS</option>
                 <option>Kubernetes / Terraform implementation</option>
+                <option>Let’s figure it out together</option>
               </select>
             </label>
-
-            <label className="mt-4 block">
-              <span className="mb-2 block text-xs font-black uppercase tracking-[0.22em] text-paper/50">Project</span>
-              <textarea
-                name="project"
-                rows={7}
-                className="w-full resize-none rounded-2xl border border-paper/10 bg-ink px-4 py-4 text-paper outline-none transition placeholder:text-paper/25 focus:border-acid"
-                placeholder="Briefly describe your challenge, timeline and target outcome."
-              />
+            <label className="contact-field contact-project" htmlFor="contact-project">
+              <span>The idea, the challenge, the ambition <span aria-hidden="true">*</span></span>
+              <textarea id="contact-project" name="project" rows={3} placeholder="Where are you today, and where would you like to be?" maxLength={2000} required />
             </label>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              <button
-                type="submit"
-                className="cursor-target inline-flex items-center justify-center gap-2 rounded-full bg-acid px-5 py-4 text-xs font-black uppercase tracking-[0.22em] text-ink transition hover:bg-paper sm:col-span-2"
-              >
-                <Mail className="h-4 w-4" /> Send inquiry
-              </button>
-              <a
-                href={primaryWhatsAppUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="cursor-target inline-flex items-center justify-center gap-2 rounded-full border border-paper/15 px-5 py-4 text-xs font-black uppercase tracking-[0.22em] text-paper transition hover:border-acid hover:text-acid"
-              >
-                <Phone className="h-4 w-4" /> Call
-              </a>
-            </div>
-          </motion.form>
+            <button type="submit" className="contact-submit cursor-target">Create email draft <ArrowUpRight size={21} aria-hidden="true" /></button>
+            <p id="email-draft-note" className="contact-draft-note">Opens your email app with a prepared draft. You review and send it.</p>
+            <div className="contact-status" role="status" aria-live="polite" aria-atomic="true">{status}</div>
+            {draftUrl && <a className="contact-reopen" href={draftUrl}>Open email draft again <ArrowUpRight size={13} aria-hidden="true" /></a>}
+          </form>
         </div>
       </div>
     </section>

@@ -1,40 +1,43 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { method } from '@/lib/site';
 import { SectionLabel } from './SectionLabel';
+import { useMotionPreferences } from './MotionProvider';
 
 export function Approach() {
-  return (
-    <section id="method" className="relative z-10 px-4 py-24 md:px-8 md:py-32">
-      <div className="mx-auto max-w-7xl">
-        <SectionLabel eyebrow="method" title="A hands-on delivery model, not a consulting deck.">
-          The engagement starts with the bottleneck and ends with working systems, reusable patterns and production confidence.
-        </SectionLabel>
+  const { motionEnabled } = useMotionPreferences();
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: timelineRef, offset: ['start 85%', 'end 50%'] });
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 25 });
 
-        <div className="grid gap-4 lg:grid-cols-4">
-          {method.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 35 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.65, delay: index * 0.07 }}
-                className="clip-card min-h-[20rem] border border-paper/10 bg-paper/[0.04] p-7"
-              >
-                <div className="mb-16 flex items-center justify-between">
-                  <span className="font-display text-5xl font-black tracking-[-0.02em] text-paper/18">0{index + 1}</span>
-                  <span className="grid h-12 w-12 place-items-center rounded-full bg-acid text-ink">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                </div>
-                <h3 className="font-display text-3xl font-black leading-tight tracking-[-0.018em] text-paper">{item.title}</h3>
-                <p className="mt-5 text-sm leading-7 text-paper/58">{item.description}</p>
-              </motion.div>
-            );
-          })}
+  return (
+    <section id="method" className="portfolio-section portfolio-method">
+      <div className="portfolio-container">
+        <SectionLabel index="04" eyebrow="the working process" title="Good systems start with good questions.">
+          A clear path from your biggest bottleneck to working systems, reusable patterns and production confidence.
+        </SectionLabel>
+        <div className="portfolio-method-timeline" ref={timelineRef}>
+          <div className="portfolio-timeline-track" aria-hidden="true"><motion.span style={{ scaleX: motionEnabled ? progress : 1 }} /></div>
+          <ol className="portfolio-method-grid">
+            {method.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <motion.li
+                  key={item.title}
+                  initial={motionEnabled ? { opacity: 0, y: 24 } : false}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: motionEnabled ? 0.6 : 0, delay: motionEnabled ? index * 0.1 : 0 }}
+                >
+                  <div className="portfolio-method-marker"><span>0{index + 1}</span><Icon size={18} aria-hidden="true" /></div>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </motion.li>
+              );
+            })}
+          </ol>
         </div>
       </div>
     </section>

@@ -2,7 +2,6 @@ import { About } from '@/components/About';
 import { Approach } from '@/components/Approach';
 import { Contact } from '@/components/Contact';
 import { CTA } from '@/components/CTA';
-import { CustomCursor } from '@/components/CustomCursor';
 import { FloatingBackground } from '@/components/FloatingBackground';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 import { Footer } from '@/components/Footer';
@@ -12,14 +11,17 @@ import { Navbar } from '@/components/Navbar';
 import { Proof } from '@/components/Proof';
 import { Services } from '@/components/Services';
 import { Showcase } from '@/components/Showcase';
+import { MotionProvider } from '@/components/MotionProvider';
+import './profile.css';
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-ink text-paper">
+    <MotionProvider>
+    <main id="main-content" className="profile-shell relative min-h-screen overflow-hidden text-paper">
+      <a className="skip-link" href="#hero-content">Skip to content</a>
       <FloatingBackground />
-      <CustomCursor />
       <Navbar />
-      <Hero />
+      <div id="hero-content" tabIndex={-1}><Hero /></div>
       <Marquee />
       <About />
       <Showcase />
@@ -31,5 +33,6 @@ export default function Home() {
       <Footer />
       <FloatingWhatsApp />
     </main>
+    </MotionProvider>
   );
 }

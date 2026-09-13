@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { useMotionPreferences } from './MotionProvider';
 
 type Variant = 'paper' | 'acid' | 'ghost';
 
@@ -22,6 +23,7 @@ const variantStyles: Record<Variant, string> = {
 };
 
 export function MagneticButton({ href, children, variant = 'paper', className = '', target, rel }: MagneticButtonProps) {
+  const { motionEnabled } = useMotionPreferences();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 180, damping: 18 });
@@ -32,8 +34,9 @@ export function MagneticButton({ href, children, variant = 'paper', className = 
       href={href}
       target={target}
       rel={rel}
-      style={{ x: springX, y: springY }}
+      style={{ x: motionEnabled ? springX : 0, y: motionEnabled ? springY : 0 }}
       onMouseMove={(event) => {
+        if (!motionEnabled || !window.matchMedia('(pointer: fine)').matches) return;
         const rect = event.currentTarget.getBoundingClientRect();
         x.set((event.clientX - rect.left - rect.width / 2) * 0.18);
         y.set((event.clientY - rect.top - rect.height / 2) * 0.18);
@@ -42,7 +45,7 @@ export function MagneticButton({ href, children, variant = 'paper', className = 
         x.set(0);
         y.set(0);
       }}
-      className={`magnetic cursor-target group inline-flex items-center justify-center gap-3 rounded-full border px-6 py-4 text-xs font-black uppercase tracking-[0.2em] transition-colors md:text-sm ${variantStyles[variant]} ${className}`}
+      className={`magnetic profile-button cursor-target group inline-flex items-center justify-center gap-3 rounded-full border px-6 py-4 text-xs font-black uppercase tracking-[0.2em] transition-colors md:text-sm ${variantStyles[variant]} ${className}`}
     >
       <span>{children}</span>
       <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
